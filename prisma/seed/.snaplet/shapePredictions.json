@@ -1,0 +1,72 @@
+[
+  {
+    "schemaName": "public",
+    "tableName": "User",
+    "predictions": [
+      {
+        "input": "public user cpf",
+        "column": "cpf",
+        "shape": "NATIONAL_IDENTIFICATION_NUMBER",
+        "confidence": 0.3451117873191833,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user email",
+        "column": "email",
+        "shape": "EMAIL",
+        "confidence": 0.99404376745224,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user first_name",
+        "column": "first_name",
+        "shape": "PERSON_FIRST_NAME",
+        "confidence": 0.9833793044090271,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user id",
+        "column": "id",
+        "shape": "UUID",
+        "confidence": 0.9964122176170349,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user last_name",
+        "column": "last_name",
+        "shape": "PERSON_LAST_NAME",
+        "confidence": 0.9846183657646179,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user nickname",
+        "column": "nickname",
+        "shape": "INTERNET_DISPLAY_NAME",
+        "confidence": 0.775119960308075,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user passaword_account",
+        "column": "passaword_account",
+        "shape": "FINANCE_IBAN",
+        "confidence": 0.8147082924842834,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      },
+      {
+        "input": "public user phone",
+        "column": "phone",
+        "shape": "PHONE_NUMBER",
+        "confidence": 0.9625558853149414,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  }
+]
