@@ -14,15 +14,18 @@ import { ProductsModule } from './products/products.module';
 import { BaseService } from './providers/service-base/base/base.service';
 import { HttpBaseService } from './providers/service-base/base/http-base-service.service';
 import { HttpModule } from '@nestjs/axios';
+import { CacheService } from './shared/cache/cache.service';
+import { CacheModule } from '@nestjs/cache-manager';
 
 
 
 @Module({
   imports: [PrismaModule, UsersModule, AuthModule,
     ConfigModule.forRoot(),
-    ProductsModule,HttpModule],
+    CacheModule.register(),
+    ProductsModule,HttpModule,],
   controllers: [AuthController],
-  providers: [AppService, AuthService, PrismaService, ValidatorService,UserService, ProductsService, BaseService, HttpBaseService],
+  providers: [AppService, AuthService, PrismaService, ValidatorService,UserService, ProductsService, BaseService, HttpBaseService, CacheService],
 })
 export class AppModule {
 

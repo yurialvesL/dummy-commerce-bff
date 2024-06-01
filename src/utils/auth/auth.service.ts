@@ -7,20 +7,19 @@ import { CreateUserDto } from './models/create-user.dto';
 import { ValidatorService } from '../services/validator/validator.service';
 import { LoggedUserResponse } from './responses/created-user-response';
 import { PrismaClient } from '@prisma/client';
+import { CacheService } from 'src/shared/cache/cache.service';
 
 
 @Injectable()
 export class AuthService {
     private prisma = new PrismaClient()
+    private PRODUCTS_CACHE_KEY = process.env.PRODUCTS_CACHE_KEY;
     constructor(
         private readonly usersService: UserService,
         private jwtService: JwtService,
-        private readonly validatorService: ValidatorService
+        private readonly validatorService: ValidatorService,
+        private readonly cacheService: CacheService
     ) { }
-
-    // async createToken(id: number){
-    //     return this.jwtService.sign({id});
-    // }
 
     async checkToken(token: string) {
         try {
@@ -31,18 +30,6 @@ export class AuthService {
             return false;
         }
     }
-
-    // async signIn(username: string, pass: string): Promise<{acess_token: string}> {
-    //     const user = await this.usersService.findOne(username);
-    //     if (user?.password !== pass) {
-    //       throw new UnauthorizedException();
-    //     }
-    //     const payload = {sub: user.userId, username: user.username};
-    //     return{
-    //         acess_token: await this.jwtService.signAsync(payload),
-    //     }
-    // }
-
 
     async createUser(createUserdto: CreateUserDto): Promise<LoggedUserResponse> {
         try {
@@ -160,6 +147,11 @@ export class AuthService {
             return response;
 
 
+    }
+
+
+    async logOut(){
+        this.cacheService.del(this.PRODUCTS_CACHE_KEY);
     }
 
 }

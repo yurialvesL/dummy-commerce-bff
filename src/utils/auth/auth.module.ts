@@ -4,6 +4,8 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthService } from './auth.service';
 import { ValidatorService } from '../services/validator/validator.service';
 import { HttpModule } from '@nestjs/axios';
+import { CacheService } from 'src/shared/cache/cache.service';
+import { CacheModule } from '@nestjs/cache-manager';
 ;
 
 
@@ -20,10 +22,12 @@ import { HttpModule } from '@nestjs/axios';
             timeout: 5000,
             maxRedirects: 5,
           }),
-          HttpModule
+          HttpModule,
+          CacheModule.register()
+    
     ],
     exports:[AuthService],
-    providers:[AuthService,ValidatorService]
+    providers:[AuthService,ValidatorService,CacheService]
 
 })
 export class AuthModule {}
