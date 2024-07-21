@@ -18,6 +18,9 @@ export class ValidatorService {
 
     validateCPF(cpf: string): boolean {
 
+        if(cpf == null || cpf == undefined)
+            return false
+
         cpf = cpf.replace(/[^\d]/g, '');
 
         if (cpf.length !== 11) {

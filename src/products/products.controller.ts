@@ -1,5 +1,5 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import {  ApiBearerAuth, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {  ApiBearerAuth,ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/utils/auth/auth.guard';
 import { ProductsService } from './products.service';
 
@@ -10,7 +10,7 @@ export class ProductsController {
     constructor(private readonly productService: ProductsService) { }
 
     @ApiBearerAuth('Bearer')
-    @ApiOperation({ summary: 'Get all products from dummy json api and set in cache' })
+    @ApiOperation({ summary: 'Get all products from dummy json api and set in cache (Use first)' })
     @Get('get-all-products')
     async getProducts() {
         return this.productService.getProducts();
@@ -46,6 +46,16 @@ export class ProductsController {
     async getBestDealProducts() {
         return await this.productService.getBestProdutcsDeals();
     }
+
+    @ApiBearerAuth('Bearer')
+    @ApiOperation({summary: 'Get Product by Id'})
+    @Get('get-product-by-id')
+    async getProductById(@Query('id') id: number) {
+        return await this.productService.getProductById(id);
+    }
+
+
+
 
 
     

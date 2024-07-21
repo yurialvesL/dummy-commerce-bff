@@ -11,34 +11,6 @@ export class UserService {
     prisma = new PrismaClient()
     constructor(private readonly validatorService: ValidatorService) { }
 
-
-
-    private readonly users = [
-        {
-            userId: 1,
-            username: 'john',
-            password: 'changeme',
-        },
-        {
-            userId: 2,
-            username: 'maria',
-            password: 'guess',
-        },
-    ];
-
-    //   async findOne(username: string): Promise<User | undefined> {
-    //     return this.users.find(user => user.username === username);
-    //   }
-
-
-    //   async user(
-    //     userWhereUniqueInput: Prisma.,
-    //   ): Promise<User | null> {
-    //     return this.prisma.user.findUnique({
-    //       where: userWhereUniqueInput,
-    //     });
-    //   }
-
     async getById(id: string) {
         return this.prisma.user.findUnique({
             where: {
@@ -131,6 +103,22 @@ export class UserService {
             throw new BadRequestException("Não foi possivel deletar este usuário")
 
         return true;
+    }
+
+    async checkNickname(nickname: string):Promise<boolean>{
+    
+     const user =   await this.prisma.user.findFirst({
+            where:{
+                nickname: nickname
+            }
+        });
+     
+      if(user === null)
+        return false
+
+      if(user.nickname == nickname)
+        return true;
+
     }
 
     formatDateToISOString(date: Date): string {

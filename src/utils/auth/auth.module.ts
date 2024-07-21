@@ -6,7 +6,6 @@ import { ValidatorService } from '../services/validator/validator.service';
 import { HttpModule } from '@nestjs/axios';
 import { CacheService } from 'src/shared/cache/cache.service';
 import { CacheModule } from '@nestjs/cache-manager';
-;
 
 
 
@@ -24,6 +23,7 @@ import { CacheModule } from '@nestjs/cache-manager';
           }),
           HttpModule,
           CacheModule.register()
+          
     
     ],
     exports:[AuthService],

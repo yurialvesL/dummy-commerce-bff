@@ -7,6 +7,7 @@ import { CacheService } from 'src/shared/cache/cache.service';
 import { CacheModule } from '@nestjs/cache-manager';
 
 
+
 @Module({
   imports:[CacheModule.register()],
   providers: [UserService,ValidatorService,AuthService,CacheService],

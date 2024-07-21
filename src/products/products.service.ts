@@ -53,7 +53,15 @@ export class ProductsService extends BaseService {
             return self.indexOf(valor) === indice;
         });
 
-        return finalResult;
+        const categoriesResult = finalResult.map((x: string) => {
+            return new Category({
+                name: x,
+                icon: this.getIconCategory(x)
+            });
+          });
+          
+
+        return categoriesResult;
 
     }
 
@@ -77,6 +85,31 @@ export class ProductsService extends BaseService {
         const result = this.data_cache.sort((a, b) => b.discountPercentage - a.discountPercentage).slice(0, 10);
 
         return result;
+    }
+
+    async getProductById(id: number): Promise<Products> {
+        this.data_cache = await this.cacheService.get(this.PRODUCTS_CACHE_KEY);
+
+        if (!this.data_cache)
+            throw new HttpException('No products found', 404);
+
+        const result = this.data_cache.find((x: Products) => x.id == id);
+
+        return result;
+    }
+
+    private getIconCategory(category: string): string{
+        if(category.toLowerCase() === "furniture")
+            return "chair"
+
+        if(category.toLowerCase() === "fragrances")
+            return "air freshener"
+
+        if(category.toLowerCase() === "beauty")
+            return "brush"
+
+        if(category.toLowerCase() === "groceries")
+            return "store"
     }
 }
 

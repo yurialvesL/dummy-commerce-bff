@@ -8,6 +8,7 @@ import { ValidatorService } from '../services/validator/validator.service';
 import { LoggedUserResponse } from './responses/created-user-response';
 import { PrismaClient } from '@prisma/client';
 import { CacheService } from 'src/shared/cache/cache.service';
+import { ProductsService } from 'src/products/products.service';
 
 
 @Injectable()
@@ -19,6 +20,7 @@ export class AuthService {
         private jwtService: JwtService,
         private readonly validatorService: ValidatorService,
         private readonly cacheService: CacheService
+
     ) { }
 
     async checkToken(token: string) {
@@ -135,20 +137,19 @@ export class AuthService {
         const payload = { sub: userFind.id, username: userFind.nickname };
 
 
-            const response: LoggedUserResponse = {
-                id: userFind.id.toString(),
-                first_name: userFind.first_name,
-                last_name: userFind.last_name,
-                email: userFind.email,
-                nickname: userFind.nickname,
-                access_token: await this.jwtService.signAsync(payload)
-            };
+        const response: LoggedUserResponse = {
+            id: userFind.id.toString(),
+            first_name: userFind.first_name,
+            last_name: userFind.last_name,
+            email: userFind.email,
+            nickname: userFind.nickname,
+            access_token: await this.jwtService.signAsync(payload)
+        };
 
-            return response;
+        return response;
 
 
     }
-
 
     async logOut(){
         this.cacheService.del(this.PRODUCTS_CACHE_KEY);
