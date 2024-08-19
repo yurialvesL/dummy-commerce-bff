@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client'
 import { Guid } from 'guid-typescript';
 import { CreateUserDto } from 'src/utils/auth/models/create-user.dto';
 import { ValidatorService } from 'src/utils/services/validator/validator.service';
+import { updateUserDto } from './models/update-user.dto';
+import { UserResponseDTO } from './models/user-response.dto';
 
 
 
@@ -11,7 +13,7 @@ export class UserService {
     prisma = new PrismaClient()
     constructor(private readonly validatorService: ValidatorService) { }
 
-    async getById(id: string) {
+    async getById(id: string): Promise<UserResponseDTO> {
         return this.prisma.user.findUnique({
             where: {
                 id: id,
@@ -119,6 +121,31 @@ export class UserService {
       if(user.nickname == nickname)
         return true;
 
+    }
+
+    async updatePersonalData(cpf:string, data: updateUserDto): Promise<UserResponseDTO>{
+
+        if(!this.validatorService.validateCPF(cpf))
+            throw new BadRequestException("Erro ao encontrar o usuário, verifique se o cpf cadastrado está correto")
+
+        const user = await this.prisma.user.update({
+            where:{
+                cpf: cpf
+            },
+            data:{
+                first_name: data.first_name,
+                last_name: data.last_name,
+                nickname: data.nickname,
+                phone: data.phone,
+                email: data.email,
+                update_at: this.formatDateToISOString(new Date())
+            }
+        });
+
+        if(user == null)
+            throw new BadRequestException("Não foi possivel atualizar os dados do usuário")
+
+        return this.getById(user.id);
     }
 
     formatDateToISOString(date: Date): string {

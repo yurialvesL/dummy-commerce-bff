@@ -55,6 +55,7 @@ export class AuthService {
                 last_name: userCreated.last_name,
                 email: userCreated.email,
                 nickname: userCreated.nickname,
+                phone: userCreated.phone,
                 access_token: await this.jwtService.signAsync(payload)
             };
 
@@ -89,6 +90,7 @@ export class AuthService {
                 last_name: userFind.last_name,
                 email: userFind.email,
                 nickname: userFind.nickname,
+                phone: userFind.phone,
                 access_token: await this.jwtService.signAsync(payload)
             };
 
@@ -116,6 +118,7 @@ export class AuthService {
                 last_name: userFind.last_name,
                 email: userFind.email,
                 nickname: userFind.nickname,
+                phone: userFind.phone,
                 access_token: await this.jwtService.signAsync(payload)
             };
 
@@ -143,6 +146,7 @@ export class AuthService {
             last_name: userFind.last_name,
             email: userFind.email,
             nickname: userFind.nickname,
+            phone: userFind.phone,
             access_token: await this.jwtService.signAsync(payload)
         };
 
