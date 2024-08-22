@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client'
 import { Guid } from 'guid-typescript';
 import { CreateUserDto } from 'src/utils/auth/models/create-user.dto';
@@ -128,6 +128,8 @@ export class UserService {
         if(!this.validatorService.validateCPF(cpf))
             throw new BadRequestException("Erro ao encontrar o usuário, verifique se o cpf cadastrado está correto")
 
+        await this.checkNickisFromTheSameUser(cpf, data);
+
         const user = await this.prisma.user.update({
             where:{
                 cpf: cpf
@@ -146,6 +148,21 @@ export class UserService {
             throw new BadRequestException("Não foi possivel atualizar os dados do usuário")
 
         return this.getById(user.id);
+    }
+
+    async checkNickisFromTheSameUser(cpf:string,user:updateUserDto){
+        const usernick =  await this.prisma.user.findUnique({
+            where:{
+                nickname: user.nickname
+            }
+        });
+        if(usernick.cpf == cpf)
+            return;
+
+        const validNickname = await this.checkNickname(user.nickname);
+        
+        if(validNickname)
+            throw new ConflictException("Nickname já está em uso");
     }
 
     formatDateToISOString(date: Date): string {
